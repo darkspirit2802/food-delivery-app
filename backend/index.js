@@ -7,7 +7,7 @@ import authRouter from "./routes/auth.routes.js";
 import cors from "cors";
 
 const app = express();
-const port = process.env.PORT || 5000;
+const port = process.env.PORT;
 app.use(
   cors({
     origin: "http://localhost:5173",

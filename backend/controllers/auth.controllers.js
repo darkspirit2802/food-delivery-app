@@ -1,4 +1,5 @@
 import User from "../models/user.model.js";
+import { sendOtpMail } from "../utils/mail.js";
 import genToken from "../utils/token.js";
 import bcrypt from "bcryptjs";
 
@@ -91,6 +92,74 @@ export const signOut = async () => {
   try {
     res.clearCookie("token");
   } catch (error) {
-    res.status(500).json(`sign out error ${err}`);
+    res.status(500).json(`sign out error ${error}`);
+  }
+};
+
+export const sendOtp = async (req, res) => {
+  try {
+    const { email } = req.body;
+    // console.log(req.body);
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(400).json({
+        message: "User does not exist",
+      });
+    }
+    const otp = Math.floor(1000 + Math.random() * 9000).toString();
+    user.resetOtp = otp;
+    user.otpExpires = Date.now() + 5 * 60 * 1000;
+    user.isOtpVerified = false;
+    await user.save();
+    await sendOtpMail({ to: email, otp });
+    return res.status(200).json({
+      message: "Otp sent successfully",
+    });
+  } catch (error) {
+    return res.status(500).json(`send otp error ${error}`);
+  }
+};
+
+export const verifyOtp = async (req, res) => {
+  try {
+    const { email, otp } = req.body;
+    const user = await User.findOne({ email });
+    if (!user || user.resetOtp != otp || user.otpExpires < Date.now()) {
+      return res.status(400).json({
+        message: "Invalid or Expired OTP",
+      });
+    }
+    user.isOtpVerified = true;
+    user.resetOtp = undefined;
+    user.otpExpires = undefined;
+    await user.save();
+
+    res.status(200).json({
+      message: "OTP verify successfully",
+    });
+  } catch (error) {
+    return res.status(500).json(`otp not verified error ${error}`);
+  }
+};
+
+export const resetPassword = async (req, res) => {
+  try {
+    const { email, newPassword } = req.body;
+    const user = await User.findOne({ email });
+    if (!user || !user.isOtpVerified) {
+      return res.status(400).json({
+        message: "otp verification required",
+      });
+    }
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    user.password = hashedPassword;
+    user.isOtpVerified = false;
+    await user.save();
+
+    res.status(200).json({
+      message: "password reset successfuly",
+    });
+  } catch (error) {
+    res.status(400).json(`reset password error ${error}`);
   }
 };
