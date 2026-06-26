@@ -9,6 +9,7 @@ export const ForgotPassword = () => {
   const navigate = useNavigate();
   const [otp, setOtp] = useState("");
   const [newPassword, setNewPassword] = useState("");
+  const [err,setErr] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const handleSendOtp = async () => {
     try {
@@ -22,11 +23,10 @@ export const ForgotPassword = () => {
         },
       );
       console.log(result);
+      setErr("")
       setStep(2);
     } catch (error) {
-      console.log(error.response?.data);
-      console.log(error.response?.status);
-      console.log(error.message);
+      setErr(error.response.data.message)
     }
   };
   const handleVerifyOtp = async () => {
@@ -42,8 +42,11 @@ export const ForgotPassword = () => {
         },
       );
       console.log(result);
+      setErr("")
       setStep(3);
-    } catch (error) {}
+    } catch (error) {
+      setErr(error.response.data.message)
+    }
   };
   const handleResetPassword = async () => {
     if (newPassword != confirmPassword) {
@@ -61,10 +64,11 @@ export const ForgotPassword = () => {
         },
       );
       console.log(result);
+      setErr("");
       setStep(3);
       navigate("/signin");
     } catch (error) {
-      console.log(error);
+      setErr(error.response.data.message)
     }
   };
   return (
@@ -98,6 +102,7 @@ export const ForgotPassword = () => {
                 onChange={(e) => setEmail(e.target.value)}
                 value={email}
                 type="text"
+                required
               />
             </div>
             <button
@@ -109,6 +114,7 @@ export const ForgotPassword = () => {
             >
               Send OTP
             </button>
+            <p className="text-red-500 text-center my-2.5">{err}</p>
           </div>
         )}
 
@@ -127,6 +133,7 @@ export const ForgotPassword = () => {
                 onChange={(e) => setOtp(e.target.value)}
                 value={otp}
                 type="text"
+                required
               />
             </div>
             <button
@@ -135,6 +142,7 @@ export const ForgotPassword = () => {
             >
               Verify
             </button>
+            <p className="text-red-500 text-center my-2.5">{err}</p>
           </div>
         )}
         {step == 3 && (
@@ -152,6 +160,7 @@ export const ForgotPassword = () => {
                 onChange={(e) => setNewPassword(e.target.value)}
                 value={newPassword}
                 type="text"
+                required
               />
             </div>
             <div className=" mb-6">
@@ -167,6 +176,7 @@ export const ForgotPassword = () => {
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 value={confirmPassword}
                 type="text"
+                required
               />
             </div>
 
@@ -176,6 +186,7 @@ export const ForgotPassword = () => {
             >
               Reset Password
             </button>
+            <p className="text-red-500 text-center my-2.5">{err}</p>
           </div>
         )}
       </div>
