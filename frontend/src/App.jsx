@@ -3,8 +3,10 @@ import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import SignIn from "./pages/SignIn.jsx";
 import SignUp from "./pages/SignUp.jsx";
 import { ForgotPassword } from "./pages/forgotPassword.jsx";
+import useGetCurrentUser from "./hooks/useGetCurrentUser.jsx";
 export const serverUrl = "http://localhost:8000";
 const App = () => {
+  useGetCurrentUser()
   return (
     <BrowserRouter>
       <Routes>

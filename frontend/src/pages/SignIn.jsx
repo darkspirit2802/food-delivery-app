@@ -140,7 +140,7 @@ const SignIn = () => {
           onClick={handleSignIn}
           disabled={loading}
         >
-          {loading ? <ClipLoader size={20} color="white" /> : "Sign Up"}
+          {loading ? <ClipLoader size={20} color="white" /> : "Sign In"}
         </button>
         <p className="text-red-500 text-center my-2.5">{err}</p>
         <span className="items-center justify-center flex">OR</span>
