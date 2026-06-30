@@ -10,9 +10,9 @@ export const ForgotPassword = () => {
   const navigate = useNavigate();
   const [otp, setOtp] = useState("");
   const [newPassword, setNewPassword] = useState("");
-  const [err,setErr] = useState("");
+  const [err, setErr] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [loading,setLoading]  = useState("false");
+  const [loading, setLoading] = useState("false");
   const handleSendOtp = async () => {
     setLoading(true);
     try {
@@ -26,11 +26,11 @@ export const ForgotPassword = () => {
         },
       );
       console.log(result);
-      setErr("")
+      setErr("");
       setLoading(false);
       setStep(2);
     } catch (error) {
-      setErr(error.response.data.message)
+      setErr(error.response.data.message);
       setLoading(false);
     }
   };
@@ -48,11 +48,11 @@ export const ForgotPassword = () => {
         },
       );
       console.log(result);
-      setErr("")
+      setErr("");
       setLoading(false);
       setStep(3);
     } catch (error) {
-      setErr(error.response.data.message)
+      setErr(error.response.data.message);
       setLoading(false);
     }
   };
@@ -88,12 +88,12 @@ export const ForgotPassword = () => {
         <div className="flex items-center gap-4 mb-4">
           <IoArrowBack
             size={30}
-            className="text-[#ff4d2d] cursor-pointer "
+            className="text-primary cursor-pointer "
             onClick={() => {
               navigate("/signin");
             }}
           />
-          <h1 className="text-2xl font-bold text-center text-[#ff4d2d] ">
+          <h1 className="text-2xl font-bold text-center text-primary ">
             Forgot Password
           </h1>
         </div>
@@ -117,15 +117,13 @@ export const ForgotPassword = () => {
               />
             </div>
             <button
-              className={`w-full font-semibold py-2 rounded-lg transition duration-200 mb-4 bg-[#ff4d2d] text-white hover:bg-[#e64323] cursor-pointer`}
+              className={`w-full font-semibold py-2 rounded-lg transition duration-200 mb-4 bg-primary text-white hover:bg-[#e64323] cursor-pointer`}
               onClick={() => {
                 // console.log("error");
                 handleSendOtp();
               }}
-              
             >
               {loading ? <ClipLoader size={20} color="white" /> : "Send OTP"}
-              
             </button>
             <p className="text-red-500 text-center my-2.5">{err}</p>
           </div>
@@ -150,11 +148,10 @@ export const ForgotPassword = () => {
               />
             </div>
             <button
-              className={`w-full font-semibold py-2 rounded-lg transition duration-200 mb-4 bg-[#ff4d2d] text-white hover:bg-[#e64323] cursor-pointer`}
+              className={`w-full font-semibold py-2 rounded-lg transition duration-200 mb-4 bg-primary text-white hover:bg-[#e64323] cursor-pointer`}
               onClick={handleVerifyOtp}
             >
               {loading ? <ClipLoader size={20} color="white" /> : "Verify"}
-              
             </button>
             <p className="text-red-500 text-center my-2.5">{err}</p>
           </div>
@@ -195,11 +192,14 @@ export const ForgotPassword = () => {
             </div>
 
             <button
-              className={`w-full font-semibold py-2 rounded-lg transition duration-200 mb-4 bg-[#ff4d2d] text-white hover:bg-[#e64323] cursor-pointer`}
+              className={`w-full font-semibold py-2 rounded-lg transition duration-200 mb-4 bg-primary text-white hover:bg-[#e64323] cursor-pointer`}
               onClick={handleResetPassword}
             >
-              {loading ? <ClipLoader size={20} color="white" /> : "Reset Password"}
-              
+              {loading ? (
+                <ClipLoader size={20} color="white" />
+              ) : (
+                "Reset Password"
+              )}
             </button>
             <p className="text-red-500 text-center my-2.5">{err}</p>
           </div>

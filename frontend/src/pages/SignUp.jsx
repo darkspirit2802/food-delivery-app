@@ -8,6 +8,8 @@ import { serverUrl } from "../App";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { auth } from "../../firebase";
 import { ClipLoader } from "react-spinners";
+import { useDispatch } from "react-redux";
+import { setUserData } from "../redux/userSlice";
 
 const SignUp = () => {
   const primaryColor = "#ff4d2d";
@@ -24,6 +26,7 @@ const SignUp = () => {
   const [mobile, setMobile] = useState("");
   const [err, setErr] = useState("");
   const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
 
   const handleSignUp = async () => {
     setLoading(true);
@@ -40,6 +43,8 @@ const SignUp = () => {
         { withCredentials: true },
       );
       console.log(result);
+      dispatch(setUserData(result.data));
+
       setErr("");
       setLoading(false);
     } catch (error) {
@@ -66,6 +71,7 @@ const SignUp = () => {
         { withCredentials: true },
       );
       console.log(result);
+      dispatch(setUserData(result.data));
     } catch (error) {
       console.log(error);
     }
@@ -210,7 +216,7 @@ const SignUp = () => {
           </div>
         </div>
         <button
-          className={`w-full font-semibold py-2 rounded-lg transition duration-200 mb-4 bg-[#ff4d2d] text-white hover:bg-[#e64323] cursor-pointer`}
+          className={`w-full font-semibold py-2 rounded-lg transition duration-200 mb-4 bg-primary text-white hover:bg-[#e64323] cursor-pointer`}
           onClick={handleSignUp}
           disabled={loading}
         >
@@ -231,7 +237,7 @@ const SignUp = () => {
           onClick={() => navigate("/signin")}
         >
           Already have an account
-          <span className="text-[#ff4d2d]">Sign In</span>
+          <span className="text-primary">Sign In</span>
         </p>
       </div>
     </div>

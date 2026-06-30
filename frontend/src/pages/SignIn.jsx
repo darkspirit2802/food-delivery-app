@@ -8,6 +8,8 @@ import { serverUrl } from "../App";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { auth } from "../../firebase";
 import { ClipLoader } from "react-spinners";
+import { useDispatch } from "react-redux";
+import { setUserData } from "../redux/userSlice";
 
 const SignIn = () => {
   const primaryColor = "#ff4d2d";
@@ -20,6 +22,7 @@ const SignIn = () => {
   const [password, setPassword] = useState("");
   const [err, setErr] = useState("");
   const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
 
   const handleSignIn = async () => {
     setLoading(true);
@@ -32,7 +35,8 @@ const SignIn = () => {
         },
         { withCredentials: true },
       );
-      console.log(result);
+      // console.log(result);
+      dispatch(setUserData(result.data));
       setErr("");
       setLoading(false);
     } catch (error) {
@@ -52,7 +56,8 @@ const SignIn = () => {
         },
         { withCredentials: true },
       );
-      console.log(result);
+      // console.log(result);
+      dispatch(setUserData(result.data));
     } catch (error) {
       console.log(error);
     }
@@ -130,13 +135,13 @@ const SignIn = () => {
           </div>
         </div>
         <div
-          className="text-right mb-4 text-[#ff4d2d] font-medium cursor-pointer"
+          className="text-right mb-4 text-primary font-medium cursor-pointer"
           onClick={() => navigate("/forgot-password")}
         >
           Forgot Password?
         </div>
         <button
-          className={`w-full font-semibold py-2 rounded-lg transition duration-200 mb-4 bg-[#ff4d2d] text-white hover:bg-[#e64323] cursor-pointer`}
+          className={`w-full font-semibold py-2 rounded-lg transition duration-200 mb-4 bg-primary text-white hover:bg-[#e64323] cursor-pointer`}
           onClick={handleSignIn}
           disabled={loading}
         >
@@ -156,7 +161,7 @@ const SignIn = () => {
           onClick={() => navigate("/signup")}
         >
           Want to create a new account?
-          <span className="text-[#ff4d2d]">Sign Up</span>
+          <span className="text-primary">Sign Up</span>
         </p>
       </div>
     </div>
