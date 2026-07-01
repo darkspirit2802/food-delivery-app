@@ -1,9 +1,11 @@
 import express from "express";
 import { isAuth } from "../middlewares/isAuth.js";
-import { manageShop } from "../controllers/shop.controllers.js";
+import { getMyShop, manageShop } from "../controllers/shop.controllers.js";
+import upload from "../middlewares/multer.js";
 
 
 const shopRouter = express.Router();
 
-shopRouter.get("/manageShop", isAuth, manageShop);
+shopRouter.post("/manageShop", isAuth,upload.single("image"), manageShop);
+shopRouter.get("/getShop", isAuth, getMyShop);
 export default shopRouter;

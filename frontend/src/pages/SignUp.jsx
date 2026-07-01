@@ -42,7 +42,7 @@ const SignUp = () => {
         },
         { withCredentials: true },
       );
-      console.log(result);
+      // console.log(result);
       dispatch(setUserData(result.data));
 
       setErr("");

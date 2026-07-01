@@ -20,7 +20,8 @@ app.use(express.json());
 app.use(cookieParser());
 app.use("/api/auth", authRouter);
 app.use("/api/user", userRouter);
-app.listen(port, () => {
-  connectDb();
+app.listen(port, async () => {
+   await connectDb();
   console.log(`Server Started at ${port}`);
 });
+  
